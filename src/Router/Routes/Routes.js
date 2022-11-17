@@ -33,8 +33,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: async ({ params }) => {
-          return fetch(`http://localhost:5001/services/${params.id}`);
-        
+          return fetch(`http://localhost:5000/services/${params.id}`);
         },
       },
       {

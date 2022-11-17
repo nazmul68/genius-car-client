@@ -1,15 +1,27 @@
 import React from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import ServiceCard from "./ServiceCard";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+  const [isAsc, setIsAsc] = useState([true]);
+  const [search, setSearch] = useState("");
+  const searchRef = useRef();
   useEffect(() => {
-    fetch("http://localhost:5001/services")
+    fetch(
+      `http://localhost:5000/services?order=${
+        isAsc ? "asc" : "desc"
+      }&search=${search}`
+    )
       .then((res) => res.json())
       .then((data) => setServices(data));
-  }, []);
+  }, [isAsc, search]);
+
+  const handleSearch = () => {
+    setSearch(searchRef.current.value);
+  };
   return (
     <div>
       <div className="text-center mb-4 ">
@@ -20,6 +32,29 @@ const Services = () => {
           humour, or randomised words which don't look even slightly believable.
         </p>
       </div>
+
+      {/* for serarch */}
+      {/* <form> */}
+      <input
+        ref={searchRef}
+        type="text"
+        placeholder="search by service name"
+        className="input input-bordered input-secondary w-full max-w-xs"
+      />
+      <button onClick={handleSearch} className="btn btn-accent mx-5">
+        serarch
+      </button>
+      {/* </form> */}
+
+      {/* for asc & desc  */}
+      <button
+        onClick={() => {
+          setIsAsc(!isAsc);
+        }}
+        className="btn btn-info flex justify-center mt-5"
+      >
+        {isAsc ? "ascending" : "descending"}
+      </button>
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-12">
         {services.map((service) => (
           <ServiceCard key={service._id} service={service}></ServiceCard>

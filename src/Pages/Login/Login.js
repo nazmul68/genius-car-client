@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import React from "react";
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -23,7 +22,7 @@ const Login = () => {
           email: user.email,
         };
         console.log(currentUser);
-        fetch(`http://localhost:5001/jwt`, {
+        fetch(`http://localhost:5000/jwt`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
